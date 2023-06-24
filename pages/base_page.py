@@ -4,12 +4,11 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class BasePage:
-    def __init__(self, driver, url):
+    def __init__(self, driver):
         self.driver = driver
-        self.url = url
 
-    def go_to_url(self):
-        self.driver.get(self.url)
+    def go_to_url(self, site_url: str):
+        self.driver.get(site_url)
 
     def element_is_visible(self, locator, timeout=5):
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
@@ -29,5 +28,5 @@ class BasePage:
     def element_is_clickable(self, locator, timeout=5):
         return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
 
-    def go_to_element(self, locator):
-        self.driver.execute_script("arguments[0].scrollIntoView();", locator)
+    def go_to_element(self, element):
+        self.driver.execute_script(f"document.getElementById({element}).scrollIntoView();")
